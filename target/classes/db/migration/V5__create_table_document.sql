@@ -6,5 +6,5 @@ CREATE TABLE t_document (
                             category VARCHAR(100) NOT NULL,
                             uploaded_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                             uploaded_by VARCHAR(100) NOT NULL,
-                            file_data BYTEA -- kolom untuk menyimpan isi file biner
+                            file_data BYTEA
 );

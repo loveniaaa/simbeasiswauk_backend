@@ -20,7 +20,7 @@ public interface ScholarshipService {
 
     boolean delete(String uuid);
 
-    Scholarship detail(String uuid);
+    Scholarship detail(String user_uuid);
 
     //Object updateScholarshipDocStatus(String uploadedBy);
 }
