@@ -142,13 +142,15 @@ public class ScholarshipServiceImpl implements ScholarshipService {
     }
 
     @Override
-    public Scholarship detail(String user_uuid) {
-        return this.getDetail(user_uuid);
+    public Scholarship detail(String userUuid) {
+
+        return repository.findByUserUuid(userUuid)
+                .orElseThrow(() -> new BaseException(EnumMessagesKey.ERROR_NOT_FOUND));
     }
 
-    private Scholarship getDetail(String user_uuid) {
+    private Scholarship getDetail(String uuid) {
 
-        return repository.findById(user_uuid)
+        return repository.findById(uuid)
                 .orElseThrow(() -> new BaseException(EnumMessagesKey.ERROR_NOT_FOUND));
     }
 
