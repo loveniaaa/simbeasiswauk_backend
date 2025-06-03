@@ -16,6 +16,8 @@ public interface ScholarshipService {
 
     Scholarship approveReject(String uuid, boolean isApproved) throws MessagingException;
 
+    Scholarship interview(String uuid) throws MessagingException;
+
     Scholarship update(ScholarshipRequest request);
 
     boolean delete(String uuid);

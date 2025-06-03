@@ -54,6 +54,8 @@ public enum EnumMessagesKey implements BaseEnumMessageKey {
     //400 SCHOLARSHIP
     SCHOLARSHIP_APPLICATION_ALREADY_EXIST("SMS-SCH-4001", HttpStatus.UNPROCESSABLE_ENTITY, "scholarship.application.already.exists"),
 
+    //400 SCHOLARSHIP TYPE
+    ERROR_DUPLICATED_SCHOLARSHIP_TYPE_NAME("SMS-SCHTY-4001", HttpStatus.UNPROCESSABLE_ENTITY, "error.duplicated.scholarship.type.name"),
 
     // 500
     ERROR_INTERNAL_SERVER("SMS-D-5001", HttpStatus.INTERNAL_SERVER_ERROR, "error.internalServer"),
@@ -65,4 +67,5 @@ public enum EnumMessagesKey implements BaseEnumMessageKey {
     private final String code;
     private final HttpStatus httpStatus;
     private final String messageKey;
+
 }

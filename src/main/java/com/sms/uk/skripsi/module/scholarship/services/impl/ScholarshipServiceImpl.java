@@ -4,7 +4,6 @@ import com.sms.uk.skripsi.base.exception.BaseException;
 import com.sms.uk.skripsi.config.response_messages.localization_messages.EnumMessagesKey;
 import com.sms.uk.skripsi.core.util.PagingUtil;
 import com.sms.uk.skripsi.core.util.UserUtil;
-import com.sms.uk.skripsi.module.document.entities.Document;
 import com.sms.uk.skripsi.module.document.repository.DocumentRepository;
 import com.sms.uk.skripsi.module.email.service.EmailService;
 import com.sms.uk.skripsi.module.scholarship.constant.ScholarshipConstant;
@@ -31,8 +30,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.sms.uk.skripsi.module.document.constant.DocumentConstants.REQUIRED_CATEGORIES;
 
 @Service
 @RequiredArgsConstructor
@@ -106,6 +103,17 @@ public class ScholarshipServiceImpl implements ScholarshipService {
         emailService.sendEmailApprovalNotification(scholarship.getUser(), isApproved);
         return repository.save(scholarship);
     }
+
+    @Override
+    public Scholarship interview(String uuid) throws MessagingException {
+        Scholarship scholarship = this.getDetail(uuid);
+
+        scholarship.setStatus(ScholarshipConstant.STATUS_INTERVIEW);
+
+        emailService.sendEmailInterviewNotification(scholarship.getUser());
+        return repository.save(scholarship);
+    }
+
 
     @Override
     public Scholarship update(ScholarshipRequest request) {

@@ -101,5 +101,18 @@ public class ScholarshipController {
                 .build());
     }
 
+    @PutMapping("/interview")
+    @Operation(summary = "Interview scholarship")
+    public ResponseEntity<Object> interview(@RequestParam String uuid) throws MessagingException {
+
+        var result = scholarshipService.interview(uuid);
+
+        return ResponseEntity.ok(SingleRecordResp.responseBuilder()
+                .result(scholarshipMapper.convertEntityToResponse(result))
+                .messageKey(EnumMessagesKey.SUCCESS_UPDATE)
+                .build());
+    }
+
+
 
 }

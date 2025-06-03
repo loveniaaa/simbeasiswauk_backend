@@ -121,6 +121,44 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Async
+    public void sendEmailInterviewNotification(MasterUser user) throws MessagingException {
+
+        try {
+            log.info("Sending registration email for user: {}", user.getEmail());
+
+            String verificationLink = buildVerificationLink(user.getVerificationCode());
+            Context context = new Context(LocaleContextHolder.getLocale());
+            context.setVariable("link", verificationLink);
+
+            // Convert the image to Base64
+            byte[] imageBytes = Files.readAllBytes(Paths.get(EmailConstant.TEMPLATE_IMAGE_PATH + "logo-uk.png"));
+            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+            // Add the Base64 string to the context
+            context.setVariable("logoBase64", base64Image);
+
+            // Process the HTML template
+            String bodyHtml = templateEngine.process("scholarship-interview.html", context);
+
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, StandardCharsets.UTF_8.name());
+
+            // Set email details
+            helper.setTo(new InternetAddress(user.getEmail()));
+            helper.setSubject("Pemberitahuan status interview beasiswa");
+            helper.setFrom(new InternetAddress(configAppProperties.mailFrom()));
+            helper.setText(bodyHtml, true); // Enable HTML content
+
+            // Send the email
+            log.info("SEND EMAIL IN EMAIL SERVICE");
+            javaMailSender.send(mimeMessage);
+        } catch (Exception e) {
+            throw new MessagingException("Error occurred while sending the interview information email", e);
+        }
+    }
+
+    @Override
+    @Async
     public void sendForgotPasswordHtmlEmail(String to, Context context) {
         try {
             // Convert the image to Base64
