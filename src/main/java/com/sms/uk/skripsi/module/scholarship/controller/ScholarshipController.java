@@ -66,9 +66,9 @@ public class ScholarshipController {
 
     @GetMapping("/detail")
     @Operation(summary = "Detail scholarship")
-    public ResponseEntity<Object> detail(@RequestParam String user_uuid){
+    public ResponseEntity<Object> detail(@RequestParam String userUuid){
 
-        var result = scholarshipService.detail(user_uuid);
+        var result = scholarshipService.detail(userUuid);
 
         return ResponseEntity.ok(SingleRecordResp.responseBuilder()
                 .result(scholarshipMapper.convertEntityToResponse(result))

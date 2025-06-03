@@ -26,4 +26,6 @@ public interface ScholarshipRepository extends JpaRepository<Scholarship, String
 
     Optional<Scholarship> findByUuid(String userUuid);
 
+    Optional<Scholarship> findByUserUuid(String userUuid);
+
 }
