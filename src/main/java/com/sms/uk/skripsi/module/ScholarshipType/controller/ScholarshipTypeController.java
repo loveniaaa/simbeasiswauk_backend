@@ -3,7 +3,11 @@ package com.sms.uk.skripsi.module.ScholarshipType.controller;
 import com.sms.uk.skripsi.base.responses.SingleRecordResp;
 import com.sms.uk.skripsi.config.response_messages.localization_messages.EnumMessagesKey;
 import com.sms.uk.skripsi.module.ScholarshipType.dtos.ScholarshipTypeRequest;
+import com.sms.uk.skripsi.module.ScholarshipType.dtos.ScholarshipTypeResponse;
+import com.sms.uk.skripsi.module.ScholarshipType.entities.ScholarshipType;
 import com.sms.uk.skripsi.module.ScholarshipType.mapper.ScholarshipTypeMapper;
+import java.util.UUID;
+import java.util.Map;
 import com.sms.uk.skripsi.module.ScholarshipType.services.impl.ScholarshipTypeServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,6 +35,21 @@ public class ScholarshipTypeController {
                 .result(mapper.convertEntityToResponse(result))
                 .messageKey(EnumMessagesKey.SUCCESS_INSERT)
                 .build());
+    }
+
+    @PatchMapping("/{uuid}/status")
+    public ResponseEntity<ScholarshipTypeResponse> updateScholarshipTypeStatus(
+            @PathVariable UUID uuid,
+            @RequestBody Map<String, Boolean> requestBody) {
+
+        Boolean newStatus = requestBody.get("isActive");
+        ScholarshipTypeRequest statusRequest = new ScholarshipTypeRequest();
+        statusRequest.setUuid(String.valueOf(uuid));
+        statusRequest.setIsActive(newStatus);
+
+        ScholarshipType updated = service.updateStatus(statusRequest);
+        ScholarshipTypeResponse response = mapper.convertEntityToResponse(updated);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/update")

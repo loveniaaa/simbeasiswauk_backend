@@ -11,6 +11,8 @@ public class ScholarshipTypeResponse {
 
     private String scholarshipName;
 
+    private boolean isActive;
+
     private String description;
 
     private String createdAt;

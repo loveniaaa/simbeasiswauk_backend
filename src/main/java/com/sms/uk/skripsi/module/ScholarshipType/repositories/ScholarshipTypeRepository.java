@@ -13,4 +13,5 @@ public interface ScholarshipTypeRepository extends JpaRepository<ScholarshipType
 
     @Query("select (count(s) > 0) from ScholarshipType s where s.scholarshipName = ?1 and s.uuid <> ?2")
     boolean existsByScholarshipNameAndUuidNot (String scholarshipName, String uuid);
+
 }

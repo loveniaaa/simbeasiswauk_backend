@@ -119,9 +119,9 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
-    @Override
     @Async
-    public void sendEmailInterviewNotification(MasterUser user) throws MessagingException {
+    @Override
+    public void sendEmailInterviewNotification(MasterUser user, boolean isValid) throws MessagingException {
 
         try {
             log.info("Sending registration email for user: {}", user.getEmail());
@@ -138,7 +138,14 @@ public class EmailServiceImpl implements EmailService {
             context.setVariable("logoBase64", base64Image);
 
             // Process the HTML template
-            String bodyHtml = templateEngine.process("scholarship-interview.html", context);
+            String bodyHtml;
+            if (isValid){
+
+                bodyHtml = templateEngine.process("scholarship-interview-email.html", context);
+            }else {
+
+                bodyHtml = templateEngine.process("scholarship-document-email.html", context);
+            }
 
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, StandardCharsets.UTF_8.name());

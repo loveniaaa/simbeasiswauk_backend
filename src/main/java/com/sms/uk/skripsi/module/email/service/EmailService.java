@@ -10,8 +10,9 @@ public interface EmailService {
 
     void sendEmailRegistration(MasterUser user) throws MessagingException;
 
+
     @Async
-    void sendEmailInterviewNotification(MasterUser user) throws MessagingException;
+    void sendEmailInterviewNotification(MasterUser user, boolean isValid) throws MessagingException;
 
     void sendForgotPasswordHtmlEmail(String to, Context context) throws MessagingException;
 

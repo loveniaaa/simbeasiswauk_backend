@@ -75,4 +75,12 @@ public class SwaggerConfig
                 .packagesToScan("com.sms.uk.skripsi.module.scholarship.controller")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi ScholarTypeManagement() {
+        return GroupedOpenApi.builder()
+                .group("Scholar Type")
+                .packagesToScan("com.sms.uk.skripsi.module.ScholarshipType.controller")
+                .build();
+    }
 }

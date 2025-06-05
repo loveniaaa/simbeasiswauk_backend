@@ -103,9 +103,10 @@ public class ScholarshipController {
 
     @PutMapping("/interview")
     @Operation(summary = "Interview scholarship")
-    public ResponseEntity<Object> interview(@RequestParam String uuid) throws MessagingException {
+    public ResponseEntity<Object> interview(@RequestParam String uuid,
+                                            @RequestParam boolean isValid) throws MessagingException {
 
-        var result = scholarshipService.interview(uuid);
+        var result = scholarshipService.interview(uuid, isValid);
 
         return ResponseEntity.ok(SingleRecordResp.responseBuilder()
                 .result(scholarshipMapper.convertEntityToResponse(result))

@@ -6,6 +6,8 @@ import com.sms.uk.skripsi.module.ScholarshipType.entities.ScholarshipType;
 public interface ScholarshipTypeService {
     ScholarshipType create(ScholarshipTypeRequest request);
 
+    ScholarshipType updateStatus(ScholarshipTypeRequest request);
+
     ScholarshipType update(ScholarshipTypeRequest request);
 
     boolean delete(String uuid);

@@ -104,13 +104,20 @@ public class ScholarshipServiceImpl implements ScholarshipService {
         return repository.save(scholarship);
     }
 
+
     @Override
-    public Scholarship interview(String uuid) throws MessagingException {
+    public Scholarship interview(String uuid, boolean isValid) throws MessagingException {
         Scholarship scholarship = this.getDetail(uuid);
 
-        scholarship.setStatus(ScholarshipConstant.STATUS_INTERVIEW);
+        if (isValid) {
 
-        emailService.sendEmailInterviewNotification(scholarship.getUser());
+            scholarship.setStatus(ScholarshipConstant.STATUS_INTERVIEW);
+        }else {
+
+            scholarship.setStatus(ScholarshipConstant.STATUS_IN_PROGRESS);
+        }
+
+        emailService.sendEmailInterviewNotification(scholarship.getUser(), isValid);
         return repository.save(scholarship);
     }
 

@@ -14,6 +14,7 @@ public class ScholarshipTypeMapper {
         return ScholarshipType.builder()
                 .scholarshipName(request.getScholarshipName())
                 .description(request.getDescription())
+                .isActive(request.getIsActive() != null ? request.getIsActive() : true)
                 .build();
     }
 
@@ -23,6 +24,7 @@ public class ScholarshipTypeMapper {
                 .uuid(announcement.getUuid())
                 .scholarshipName(request.getScholarshipName())
                 .description(request.getDescription())
+                .isActive(request.getIsActive() != null ? request.getIsActive() : announcement.isActive())
                 .createdAt(announcement.getCreatedAt())
                 .createdBy(announcement.getCreatedBy())
                 .isDeleted(announcement.isDeleted())
@@ -37,6 +39,7 @@ public class ScholarshipTypeMapper {
                 .uuid(scholarshipType.getUuid())
                 .scholarshipName(scholarshipType.getScholarshipName())
                 .description(scholarshipType.getDescription())
+                .isActive(scholarshipType.isActive())
                 .createdAt(DateTimeUtil.convertToDetailDateTime(scholarshipType.getCreatedAt()))
                 .createdBy(scholarshipType.getCreatedBy())
                 .updatedAt(DateTimeUtil.convertToDetailDateTime(scholarshipType.getUpdatedAt()))

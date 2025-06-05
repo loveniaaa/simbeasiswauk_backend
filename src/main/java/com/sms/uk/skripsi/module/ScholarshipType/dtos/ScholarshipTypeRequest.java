@@ -15,4 +15,7 @@ public class ScholarshipTypeRequest {
     @JsonProperty("description")
     private String description;
 
+    @JsonProperty("isActive")
+    private Boolean isActive;
+
 }

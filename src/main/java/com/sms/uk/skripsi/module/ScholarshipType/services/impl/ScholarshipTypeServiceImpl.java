@@ -33,6 +33,18 @@ public class ScholarshipTypeServiceImpl implements ScholarshipTypeService {
     }
 
     @Override
+    public ScholarshipType updateStatus(ScholarshipTypeRequest request) {
+        log.info("Updating scholarship type status: {}", request);
+
+        ScholarshipType scholarshipType = this.getDetail(request.getUuid());
+
+        scholarshipType.setActive(request.getIsActive());
+
+        return repository.save(scholarshipType);
+    }
+
+
+    @Override
     public ScholarshipType update(ScholarshipTypeRequest request) {
 
         log.info("scholarship type update request: {}", request);
