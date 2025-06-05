@@ -1,0 +1,4 @@
+ALTER TABLE t_scholarhsiptype
+    ADD COLUMN applicant_quota INTEGER NOT NULL DEFAULT 0,
+    ADD COLUMN minimum_gpa NUMERIC(3,2) NOT NULL DEFAULT 0.00,
+    ADD COLUMN minimum_semester INTEGER NOT NULL DEFAULT 1;

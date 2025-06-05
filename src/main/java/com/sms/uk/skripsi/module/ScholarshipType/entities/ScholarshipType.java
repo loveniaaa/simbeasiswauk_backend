@@ -13,6 +13,8 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.annotations.Where;
 
+import java.math.BigDecimal;
+
 @Entity
 @Getter
 @Setter
@@ -36,5 +38,15 @@ public class ScholarshipType extends BaseEntity<String> {
 
     @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
+
+    @Column(name = "applicant_quota")
+    private Integer applicantQuota;
+
+    @Column(name = "minimum_gpa", precision = 3, scale = 2)
+    private BigDecimal minimumGpa;
+
+    @Column(name = "minimum_semester")
+    private Integer minimumSemester;
+
 
 }
