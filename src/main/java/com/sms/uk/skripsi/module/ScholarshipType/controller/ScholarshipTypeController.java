@@ -1,5 +1,6 @@
 package com.sms.uk.skripsi.module.ScholarshipType.controller;
 
+import com.sms.uk.skripsi.base.responses.PagingSortingResp;
 import com.sms.uk.skripsi.base.responses.SingleRecordResp;
 import com.sms.uk.skripsi.config.response_messages.localization_messages.EnumMessagesKey;
 import com.sms.uk.skripsi.module.ScholarshipType.dtos.ScholarshipTypeRequest;
@@ -61,6 +62,26 @@ public class ScholarshipTypeController {
         return ResponseEntity.ok(SingleRecordResp.responseBuilder()
                 .result(mapper.convertEntityToResponse(result))
                 .messageKey(EnumMessagesKey.SUCCESS_INSERT)
+                .build());
+    }
+
+    @GetMapping("/get")
+    @Operation(summary = "Paging Scholarship type")
+    public ResponseEntity<Object> paging(@RequestParam(required = false) Integer page,
+                                         @RequestParam(required = false) Integer size,
+                                         @RequestParam(required = false) String sortBy,
+                                         @RequestParam(required = false) String orderBy,
+                                         @RequestParam(required = false) String searchByScholarshipName){
+
+        var results = service.paging(page, size, sortBy, orderBy, searchByScholarshipName);
+
+        return ResponseEntity.ok(PagingSortingResp.responseBuilder()
+                .messageKey(EnumMessagesKey.SUCCESS)
+                .currentPage(results.getNumber())
+                .totalPage(results.getTotalPages())
+                .currentSize(results.getSize())
+                .records(results.getContent().stream().map(mapper::convertEntityToResponse).toList())
+                .totalSize(results.getTotalElements())
                 .build());
     }
 
