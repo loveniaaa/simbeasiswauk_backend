@@ -24,7 +24,7 @@ public interface ScholarshipRepository extends JpaRepository<Scholarship, String
     @Query("UPDATE Scholarship s SET s.documentCompletionStatus = :isComplete WHERE s.user.uuid = :uploadedBy")
     void updateDocumentCompletionStatusByUuid(@Param("uploadedBy") String uploadedBy, @Param("isComplete") boolean isComplete);
 
-    Optional<Scholarship> findByUuid(String userUuid);
+    Optional<Scholarship> findByUuid(String uuid);
 
     Optional<Scholarship> findByUserUuid(String userUuid);
 
