@@ -171,7 +171,7 @@ public class DocumentServiceImpl implements DocumentServices {
 
     @Override
     public DocumentResponse saveDocument(Document document) {
-        return null;
+        return documentMapper.toResponse(documentRepository.save(document));
     }
 
 
