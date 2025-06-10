@@ -121,40 +121,51 @@ public class DocumentServiceImpl implements DocumentServices {
 
     @Override
     public Object checkDocumentCompleteness(String uploadedBy, String category) {
-        List<String> requiredCategories = List.of(
-                "Pass Foto", "Form Biodata A1", "Form Keterampilan", "Surat Keterangan Tidak Mampu", "Resume Pribadi",
-                "Motivation Letter", "Surat Pernyataan Tidak Menerima Beasiswa Lain", "Surat Pernyataan Bermetrai",
-                "Fotocopy KTP", "Fotocopy KTM", "Transkrip Nilai"
-        );
-
         List<String> uploadedCategories = documentRepository.findUploadedCategoriesByUser(uploadedBy);
 
         if (uploadedCategories == null || uploadedCategories.isEmpty()) {
             throw new RuntimeException("User with uploadedBy '" + uploadedBy + "' has not uploaded any documents.");
         }
 
-        if (category != null && !category.isEmpty()) {
-            boolean isUploaded = uploadedCategories.contains(category);
-            Map<String, Object> result = new HashMap<>();
-            result.put("category", category);
-            result.put("isUploaded", isUploaded);
-            return result;
-        }
+        Scholarship scholarship = scholarshipRepository.findByUserUuid(uploadedBy)
+                .orElseThrow(() -> new RuntimeException("Scholarship not found for user: " + uploadedBy));
 
-        List<String> missingCategories = new ArrayList<>();
-        for (String required : requiredCategories) {
-            if (!uploadedCategories.contains(required)) {
-                missingCategories.add(required);
-            }
-        }
+        String scholarshipType = scholarship.getScholarshipType();
+
+        // Daftar kategori wajib dan opsional
+        List<String> requiredCategories = switch (scholarshipType) {
+            case "GenBI" -> List.of(
+                    "Pass Foto", "Form Biodata A1", "Form Keterampilan", "Surat Keterangan Tidak Mampu", "Resume Pribadi",
+                    "Motivation Letter", "Surat Pernyataan Tidak Menerima Beasiswa Lain", "Surat Pernyataan Bermetrai",
+                    "Fotocopy KTP", "Fotocopy KTM", "Transkrip Nilai"
+            );
+            case "KIP" -> List.of(
+                    "Surat Keterangan Tidak Mampu", "Akte", "KK", "Ijazah SMA"
+            );
+            default -> throw new RuntimeException("Jenis beasiswa tidak dikenali: " + scholarshipType);
+        };
+
+        List<String> optionalCategories = switch (scholarshipType) {
+            case "KIP" -> List.of("Sertifikat Prestasi");
+            default -> List.of();
+        };
+
+        List<String> missingCategories = requiredCategories.stream()
+                .filter(req -> !uploadedCategories.contains(req))
+                .toList();
 
         Map<String, Object> result = new HashMap<>();
         result.put("uploadedBy", uploadedBy);
+        result.put("scholarshipType", scholarshipType);
         result.put("isComplete", missingCategories.isEmpty());
         result.put("missingCategories", missingCategories);
+        result.put("optionalUploaded", optionalCategories.stream()
+                .filter(uploadedCategories::contains)
+                .toList());
 
         return result;
     }
+
 
     @Override
     public List<DocumentResponse> getAllDocumentsByUser(String uploadedBy) {

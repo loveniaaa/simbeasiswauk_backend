@@ -134,14 +134,14 @@ public class DocumentController {
 
     @PutMapping("update/{uuid}")
     public ResponseEntity<DocumentResponse> replaceDocument(
-            @RequestParam("file") MultipartFile file,
-            @PathVariable("uuid") String uuid,
-            @RequestBody DocumentUploadRequest request) {
+            @RequestPart("file") MultipartFile file,
+            @RequestPart("data") DocumentUploadRequest request,
+            @PathVariable("uuid") String uuid) {
         try {
             DocumentResponse response = documentServices.replaceDocument(file, uuid, request);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);  // Menangani kesalahan jika ada
+            return ResponseEntity.badRequest().body(null);
         }
     }
 

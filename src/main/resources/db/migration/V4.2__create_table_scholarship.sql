@@ -1,0 +1,1 @@
+ALTER TABLE t_scholarship DROP CONSTRAINT uc_t_scholarship_major_uuid;
